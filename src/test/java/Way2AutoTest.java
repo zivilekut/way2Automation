@@ -103,6 +103,25 @@ public class Way2AutoTest {
         }
         WebElement resultText = driver.findElement(By.xpath("/html/body/div/div[2]/p"));
         Assert.assertEquals(resultText.getText(), "Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna.");
+
+        driver.findElement(By.id("ui-id-5")).click(); //section 3
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resultText = driver.findElement(By.xpath("/html/body/div/div[3]/p"));
+        Assert.assertEquals(resultText.getText(), "Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.");
+
+        driver.findElement(By.id("ui-id-7")).click(); //section 4
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        resultText = driver.findElement(By.xpath("/html/body/div/div[4]/p[1]"));
+        Assert.assertEquals(resultText.getText(), "Cras dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia mauris vel est.");
+
         driver.close();
     }
 
