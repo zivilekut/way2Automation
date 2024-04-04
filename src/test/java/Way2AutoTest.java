@@ -17,6 +17,22 @@ public class Way2AutoTest {
         driver = new ChromeDriver(options);
     }
 
+    @Test //drag object anywhere
+    public void draggable(){
+        driver.get("https://www.way2automation.com/way2auto_jquery/draggable.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+
+        WebElement draggableElement = driver.findElement(By.id("draggable"));
+        Actions actions = new Actions(driver);
+        actions.dragAndDropBy(draggableElement,100,100).build().perform();
+        driver.close();
+    }
+
     @Test //drag and drop
     public void droppable(){
         driver.get("https://www.way2automation.com/way2auto_jquery/droppable.php#load_box");
