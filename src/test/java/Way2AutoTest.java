@@ -205,4 +205,50 @@ public class Way2AutoTest {
         Assert.assertEquals(resultText.getText(), "New Browser Tab");
         driver.quit();
     }
+
+    @Test //open separate new window
+    public void framesAndWindows2() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/frames-and-windows.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[1]/ul/li[2]/a")).click(); //open separate new window tab
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[2]/div/iframe")));
+
+        String mainWindowHandle = driver.getWindowHandle();
+
+        driver.findElement(By.xpath("/html/body/div/p/a")).click(); //click on "Open New Seprate Window"
+        driver.switchTo().defaultContent();
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Set<String> windowHandlesAfterClick = driver.getWindowHandles(); // Get all window handles after clicking the link
+
+        String newWindowHandle = null;
+        for (String windowHandle : windowHandlesAfterClick) {
+            if (!windowHandle.equals(mainWindowHandle)) {
+                newWindowHandle = windowHandle;
+                break;
+            }
+        }
+
+        Assert.assertNotNull(newWindowHandle);// Assert that a new window has been opened
+
+        driver.switchTo().window(newWindowHandle);// Switch to the new window
+
+        WebElement resultText = driver.findElement(By.xpath("/html/body/div/p/a"));
+        Assert.assertEquals(resultText.getText(), "Open New Seprate Window");
+        driver.close();// Close the new window
+
+        driver.switchTo().window(mainWindowHandle);// Switch back to the main window
+        driver.quit();
+
+    }
 }
