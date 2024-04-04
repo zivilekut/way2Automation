@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -284,6 +285,37 @@ public class Way2AutoTest {
 
         driver.switchTo().window(mainWindowHandle);// Switch back to the main window
         driver.quit();
+    }
 
+    @Test //select from dropdown
+    public void dropdown() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/dropdown.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+
+        WebElement dropdown = driver.findElement(By.xpath("/html/body/select"));
+        dropdown.click();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        driver.findElement(By.xpath("/html/body/select/option[126]")).click(); //Lithuania
+        dropdown.click();
+
+        Select select = new Select(dropdown);
+        select.selectByVisibleText("Lithuania");
+
+        WebElement selectedOption = select.getFirstSelectedOption();
+        String selectedOptionText = selectedOption.getText();
+
+        Assert.assertEquals(selectedOptionText, "Lithuania");
+
+        driver.close();
     }
 }
