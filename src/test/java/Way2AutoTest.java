@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Way2AutoTest {
@@ -89,7 +90,7 @@ public class Way2AutoTest {
         driver.close();
     }
 
-    @Test
+    @Test //write part of the text and select the first option
     public void autocomplete() {
         driver.get("https://www.way2automation.com/way2auto_jquery/autocomplete.php#load_box");
         try {
@@ -117,7 +118,7 @@ public class Way2AutoTest {
         driver.close();
     }
 
-    @Test
+    @Test //select date from a calendar
     public void datePicker() {
         driver.get("https://www.way2automation.com/way2auto_jquery/datepicker.php#load_box");
         try {
@@ -148,7 +149,7 @@ public class Way2AutoTest {
         driver.close();
     }
 
-    @Test
+    @Test //hover over an item and check the text
     public void tooltip() {
         driver.get("https://www.way2automation.com/way2auto_jquery/tooltip.php#load_box");
         try {
@@ -175,5 +176,33 @@ public class Way2AutoTest {
         Assert.assertEquals(tooltipText3, "We ask for your age only for statistical purposes.");
 
         driver.close();
+    }
+
+    @Test //open new tab
+    public void framesAndWindows1() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/frames-and-windows.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+
+        driver.findElement(By.xpath("/html/body/div/p/a")).click(); //click on "New Browser Tab"
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //assert 1 - check number of tabs
+        Set<String> windowHandlesAfterClick = driver.getWindowHandles(); // Get all window handles after clicking the link
+        Assert.assertEquals(windowHandlesAfterClick.size(), 2);
+
+        //assert 2 - check text in the opened tab
+        WebElement resultText = driver.findElement(By.xpath("/html/body/div/p/a"));
+        Assert.assertEquals(resultText.getText(), "New Browser Tab");
+        driver.quit();
     }
 }
