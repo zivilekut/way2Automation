@@ -15,7 +15,6 @@ public class Way2AutoTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
-        //driver.get("https://www.way2automation.com/way2auto_jquery/automation-practice-site.html");
     }
 
     @Test //drag and drop
@@ -33,5 +32,21 @@ public class Way2AutoTest {
         Actions actions = new Actions(driver);
         actions.dragAndDrop(draggableElement, droppableElement).build().perform();
         driver.close();
+    }
+   @Test //resize window
+    public void resizable(){
+       driver.get("https://www.way2automation.com/way2auto_jquery/resizable.php#load_box");
+       try {
+           TimeUnit.SECONDS.sleep(2);
+       } catch (InterruptedException e) {
+           e.printStackTrace();
+       }
+       driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+       WebElement resizableElement = driver.findElement(By.xpath("/html/body/div/div[3]"));
+       Actions actions = new Actions(driver);
+       actions.clickAndHold(resizableElement).build().perform();
+       actions.moveByOffset(100, 100).build().perform();
+       actions.release().build().perform();
+       driver.close();
     }
 }
