@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Way2AutoTest {
     ChromeDriver driver;
+
     @BeforeTest
     public void SetupWebDriver() {
         ChromeOptions options = new ChromeOptions();
@@ -19,7 +20,7 @@ public class Way2AutoTest {
     }
 
     @Test //drag object anywhere
-    public void draggable(){
+    public void draggable() {
         driver.get("https://www.way2automation.com/way2auto_jquery/draggable.php#load_box");
         try {
             TimeUnit.SECONDS.sleep(2);
@@ -30,12 +31,12 @@ public class Way2AutoTest {
 
         WebElement draggableElement = driver.findElement(By.id("draggable"));
         Actions actions = new Actions(driver);
-        actions.dragAndDropBy(draggableElement,100,100).build().perform();
+        actions.dragAndDropBy(draggableElement, 100, 100).build().perform();
         driver.close();
     }
 
     @Test //drag and drop to a specific zone
-    public void droppable(){
+    public void droppable() {
         driver.get("https://www.way2automation.com/way2auto_jquery/droppable.php#load_box");
         try {
             TimeUnit.SECONDS.sleep(2);
@@ -50,24 +51,26 @@ public class Way2AutoTest {
         actions.dragAndDrop(draggableElement, droppableElement).build().perform();
         driver.close();
     }
-   @Test //resize window
-    public void resizable(){
-       driver.get("https://www.way2automation.com/way2auto_jquery/resizable.php#load_box");
-       try {
-           TimeUnit.SECONDS.sleep(2);
-       } catch (InterruptedException e) {
-           e.printStackTrace();
-       }
-       driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
-       WebElement resizableElement = driver.findElement(By.xpath("/html/body/div/div[3]"));
-       Actions actions = new Actions(driver);
-       actions.clickAndHold(resizableElement).build().perform();
-       actions.moveByOffset(100, 100).build().perform();
-       actions.release().build().perform();
-       driver.close();
+
+    @Test //resize window
+    public void resizable() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/resizable.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+        WebElement resizableElement = driver.findElement(By.xpath("/html/body/div/div[3]"));
+        Actions actions = new Actions(driver);
+        actions.clickAndHold(resizableElement).build().perform();
+        actions.moveByOffset(100, 100).build().perform();
+        actions.release().build().perform();
+        driver.close();
     }
-    @Test
-    public void accordion(){
+
+    @Test //text is visible after clicking on section
+    public void accordion() {
         driver.get("https://www.way2automation.com/way2auto_jquery/accordion.php#load_box");
         try {
             TimeUnit.SECONDS.sleep(2);
@@ -83,6 +86,34 @@ public class Way2AutoTest {
         }
         WebElement resultText = driver.findElement(By.xpath("/html/body/div/div[2]/p"));
         Assert.assertEquals(resultText.getText(), "Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna.");
+        driver.close();
+    }
+
+    @Test
+    public void autocomplete() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/autocomplete.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+        WebElement autocompleteField = driver.findElement(By.id("tags"));
+        autocompleteField.sendKeys("ja");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.findElement(By.xpath("/html/body/ul/li[1]")).click(); //select autocomplete suggestion
+
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String fieldValue = autocompleteField.getAttribute("value");
+        Assert.assertEquals(fieldValue, "Java");
         driver.close();
     }
 }
