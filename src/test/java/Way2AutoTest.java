@@ -147,4 +147,33 @@ public class Way2AutoTest {
         Assert.assertEquals(fieldValue, "01/01/2024");
         driver.close();
     }
+
+    @Test
+    public void tooltip() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/tooltip.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+
+        WebElement elementToHover1 = driver.findElement(By.xpath("/html/body/p[1]/a"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(elementToHover1).perform();
+        String tooltipText1 = elementToHover1.getAttribute("title");
+        Assert.assertEquals(tooltipText1, "That's what this widget is");
+
+        WebElement elementToHover2 = driver.findElement(By.xpath("/html/body/p[2]/a"));
+        actions.moveToElement(elementToHover2).perform();
+        String tooltipText2 = elementToHover2.getAttribute("title");
+        Assert.assertEquals(tooltipText2, "ThemeRoller: jQuery UI's theme builder application");
+
+        WebElement elementToHover3 = driver.findElement(By.id("age"));
+        actions.moveToElement(elementToHover3).perform();
+        String tooltipText3 = elementToHover3.getAttribute("title");
+        Assert.assertEquals(tooltipText3, "We ask for your age only for statistical purposes.");
+
+        driver.close();
+    }
 }
