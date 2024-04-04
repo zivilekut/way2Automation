@@ -71,11 +71,18 @@ public class Way2AutoTest {
             e.printStackTrace();
         }
         driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+
         WebElement resizableElement = driver.findElement(By.xpath("/html/body/div/div[3]"));
+        Point initialLocation = resizableElement.getLocation();
+
         Actions actions = new Actions(driver);
         actions.clickAndHold(resizableElement).build().perform();
         actions.moveByOffset(100, 100).build().perform();
         actions.release().build().perform();
+
+        Point finalLocation = resizableElement.getLocation();
+
+        Assert.assertNotEquals(finalLocation, initialLocation);
         driver.close();
     }
 
