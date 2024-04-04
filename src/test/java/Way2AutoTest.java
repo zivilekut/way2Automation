@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -31,8 +32,12 @@ public class Way2AutoTest {
         driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
 
         WebElement draggableElement = driver.findElement(By.id("draggable"));
+        Point initialLocation = draggableElement.getLocation();
         Actions actions = new Actions(driver);
         actions.dragAndDropBy(draggableElement, 100, 100).build().perform();
+        Point finalLocation = draggableElement.getLocation();
+
+        Assert.assertNotEquals(finalLocation, initialLocation);
         driver.close();
     }
 
@@ -50,6 +55,10 @@ public class Way2AutoTest {
         WebElement droppableElement = driver.findElement(By.id("droppable"));
         Actions actions = new Actions(driver);
         actions.dragAndDrop(draggableElement, droppableElement).build().perform();
+
+        WebElement resultText = driver.findElement(By.xpath("/html/body/div[2]/p"));
+        Assert.assertEquals(resultText.getText(), "Dropped!");
+
         driver.close();
     }
 
