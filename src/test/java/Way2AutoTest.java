@@ -1,3 +1,4 @@
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
@@ -316,6 +317,31 @@ public class Way2AutoTest {
 
         Assert.assertEquals(selectedOptionText, "Lithuania");
 
+        driver.close();
+    }
+
+    @Test
+    public void alert() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/alert.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+        driver.findElement(By.xpath("/html/body/button")).click(); //Click the button to display an alert box
+
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        Assert.assertEquals(alertText, "I am an alert box!");
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        alert.accept();
         driver.close();
     }
 }
