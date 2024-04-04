@@ -116,4 +116,35 @@ public class Way2AutoTest {
         Assert.assertEquals(fieldValue, "Java");
         driver.close();
     }
+
+    @Test
+    public void datePicker() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/datepicker.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[1]/div/iframe")));
+        driver.findElement(By.id("datepicker")).click(); //click on date field to get a calendar
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.findElement(By.xpath("/html/body/div/div/a[1]/span")).click(); //go back by 1 month
+        driver.findElement(By.xpath("/html/body/div/div/a[1]/span")).click(); //go back by 1 month
+        driver.findElement(By.xpath("/html/body/div/div/a[1]/span")).click(); //go back by 1 month
+        driver.findElement(By.xpath("/html/body/div/table/tbody/tr[1]/td[2]/a")).click(); //select January 1
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        WebElement resultText = driver.findElement(By.id("datepicker"));
+        String fieldValue = resultText.getAttribute("value");
+        Assert.assertEquals(fieldValue, "01/01/2024");
+        driver.close();
+    }
 }
