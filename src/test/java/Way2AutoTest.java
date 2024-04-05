@@ -344,6 +344,33 @@ public class Way2AutoTest {
         alert.accept();
         driver.close();
     }
+
+    @Test //alert message with input
+    public void inputAlert() {
+        driver.get("https://www.way2automation.com/way2auto_jquery/alert.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[1]/ul/li[2]/a")).click(); //Click INPUT ALERT
+
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().frame(driver.findElement(By.xpath("/html/body/section/div[1]/div[1]/div[3]/div[2]/div/iframe")));
+        driver.findElement(By.xpath("/html/body/button")).click(); //Click the button to demonstrate the Input box.
+
+        Alert alert = driver.switchTo().alert();
+        alert.sendKeys("Test");
+        alert.accept();
+
+        WebElement resultText = driver.findElement(By.id("demo"));
+        Assert.assertEquals(resultText.getText(), "Hello Test! How are you today?");
+        driver.close();
+    }
     @Test //fill in registration form
     public void registration(){
         driver.get("https://www.way2automation.com/way2auto_jquery/registration.php#load_box");
