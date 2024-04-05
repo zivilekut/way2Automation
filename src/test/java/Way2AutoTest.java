@@ -320,7 +320,7 @@ public class Way2AutoTest {
         driver.close();
     }
 
-    @Test
+    @Test //alert message
     public void alert() {
         driver.get("https://www.way2automation.com/way2auto_jquery/alert.php#load_box");
         try {
@@ -343,5 +343,37 @@ public class Way2AutoTest {
 
         alert.accept();
         driver.close();
+    }
+    @Test //fill in registration form
+    public void registration(){
+        driver.get("https://www.way2automation.com/way2auto_jquery/registration.php#load_box");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[1]/p[1]/input")).sendKeys("Test"); //name
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[1]/p[2]/input")).sendKeys("Test"); //last name
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[2]/div/label[1]/input")).click(); //marital status
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[3]/div/label[2]/input")).click(); //hobby
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[1]/select")).click(); //month
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[1]/select/option[2]")).click(); //1
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[2]/select")).click(); //day
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[2]/select/option[2]")).click(); //1
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[3]/select")).click(); //year
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[5]/div[3]/select/option[2]")).click(); //2014
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[6]/input")).sendKeys("+3706111111"); //phone number
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[7]/input")).sendKeys("Test"); //username
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[8]/input")).sendKeys("Test@test.com"); //email
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[9]/input")).sendKeys("C:\\Users\\zivil\\Downloads\\kekw.png"); //photo
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[10]/textarea")).sendKeys("testing"); //about
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[11]/input")).sendKeys("testing"); //password
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[12]/input")).sendKeys("testing"); //password
+        driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[13]/input")).click(); //submit
+
+        WebElement resultText = driver.findElement(By.xpath("/html/body/section/div[1]/div/div/form/fieldset[1]/p[1]/input"));
+        Assert.assertEquals(resultText.getText(), "");
+        driver.quit();
     }
 }
